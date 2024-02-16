@@ -1,0 +1,60 @@
+{
+  "name": "Gemini",
+  "productName": "Gemini",
+  "version": "0.0.1",
+  "description": "Gemini",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-builder --linux --win --mac",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish --arch arm64,x64",
+    "postpackage": "electron-forge remove-package-artifacts",
+    "lint": "echo \"Nenhuma configuração de linting\"",
+    "package-linux": "electron-builder --linux",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": ["gemini", "IA", "Google", "MacOS"],
+  "author": {
+    "name": "Alan Prates",
+    "email": "alan_invasion@hotmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "electron-context-menu": "^3.6.0",
+    "menubar": "^9.2.3",
+    "nucleus-analytics": "^4.0.3",
+    "update-electron-app": "^2.0.1",
+    "electron-winstaller": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlanPrates/Gemini"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.4",
+    "@electron-forge/maker-deb": "^6.0.4",
+    "@electron-forge/maker-rpm": "^6.0.4",
+    "@electron-forge/maker-squirrel": "^6.0.4",
+    "@electron-forge/maker-zip": "^6.0.4",
+    "@electron-forge/publisher-github": "^6.0.4",
+    "dotenv": "^16.0.3",
+    "electron": "^21.4.4",
+    "electron-builder": "^24.6.4",
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "build": {
+    "appId": "com.alanprates.gemini",
+    "win": {
+      "icon": "images/icon.png"
+    },
+    "linux": {
+      "icon": "images/icon.png",
+      "target": ["deb", "rpm"]
+    },
+    "mac": {
+      "icon": "images/icon.png",
+      "target": ["dmg"]
+    }
+  }
+}

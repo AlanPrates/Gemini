@@ -1,0 +1,56 @@
+/* Define a fonte e zera margens e padding do corpo do documento */
+/* Também esconde overflow e faz um ajuste para a altura real (account for the arrow) */
+:root {
+  --actual-height: calc(100vh - 12px);
+}
+
+.myarrow {
+  position: relative;
+  padding: 12px 0 0 0;
+}
+
+.myarrow:before {
+  content: '';
+  height: 0;
+  width: 0;
+  border-width: 0 8px 12px 8px;
+  border-style: solid;
+  border-color: transparent transparent white transparent;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Estilo adicional para modo escuro */
+@media (prefers-color-scheme: dark) {
+  .myarrow:before {
+    border-color: transparent transparent #343541 transparent !important;
+  }
+}
+
+/* Estilos para a página */
+.page {
+  background: #eeeeee;
+  width: 100%;
+  height: var(--actual-height);
+  margin-top: 12px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Estilos específicos para a página em macOS */
+.darwin.page {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Estilos para o elemento webview */
+webview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--actual-height);
+  display: inline-flex !important;
+}
