@@ -4,7 +4,7 @@ Este é um aplicativo simples que permite usar o Gemini diretamente no seu windo
 
 
 <p align="center">
-  <img src="./images/captura.png" width="700">
+  <img src="./images/Captura.png" width="700">
 </p>
 
 
