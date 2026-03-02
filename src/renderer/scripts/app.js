@@ -20,6 +20,7 @@ async function init() {
     // Show Windows caption buttons only on Windows
     if (platform === 'windows') {
         document.getElementById('win-controls').style.display = 'flex';
+        document.getElementById('btn-settings').style.display = 'none'; // Hide settings icon on Windows
     }
 
     initWebview();
