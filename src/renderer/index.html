@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        connect-src https:;
+        img-src 'self' data: https:;
+      "
+    />
+    <title>Gemini</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/macos.css" />
+    <link rel="stylesheet" href="styles/windows11.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- ─── Title Bar ─────────────────────────────────────────────────────── -->
+      <div id="title-bar">
+        <span class="title-text" id="title-text">Gemini</span>
+
+        <!-- Windows 11 caption buttons (hidden on macOS/Linux by JS) -->
+        <div id="win-controls" style="display: none">
+          <button class="win-ctrl-btn" id="btn-win-min" title="Minimizar">
+            <!-- minimize icon -->
+            <svg width="10" height="1" viewBox="0 0 10 1" fill="currentColor">
+              <rect width="10" height="1" />
+            </svg>
+          </button>
+          <button class="win-ctrl-btn" id="btn-win-max" title="Maximizar">
+            <!-- maximize icon -->
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="0.6" y="0.6" width="8.8" height="8.8" />
+            </svg>
+          </button>
+          <button class="win-ctrl-btn close" id="btn-win-close" title="Fechar">
+            <!-- close icon -->
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+              <line x1="0" y1="0" x2="10" y2="10" stroke="currentColor" stroke-width="1.2" />
+              <line x1="10" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.2" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Settings gear button -->
+        <button id="btn-settings" title="Configurações (⌘,)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- ─── Webview ────────────────────────────────────────────────────────── -->
+      <div id="webview-container">
+        <webview
+          id="gemini-webview"
+          src="https://gemini.google.com/app"
+          autosize="on"
+          allowpopups
+        ></webview>
+      </div>
+    </div>
+
+    <!-- ─── Settings Panel ───────────────────────────────────────────────────── -->
+    <div id="settings-panel" role="dialog" aria-modal="true" aria-label="Configurações">
+      <div id="settings-backdrop"></div>
+      <div id="settings-card">
+        <button id="btn-close-settings" title="Fechar">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </button>
+
+        <h2>Configurações</h2>
+
+        <!-- Theme -->
+        <div class="settings-group">
+          <label>Tema</label>
+          <div class="theme-selector">
+            <button class="theme-btn" data-theme="light">☀️ Claro</button>
+            <button class="theme-btn active" data-theme="system">⚙️ Sistema</button>
+            <button class="theme-btn" data-theme="dark">🌙 Escuro</button>
+          </div>
+        </div>
+
+        <!-- Opacity -->
+        <div class="settings-group">
+          <label>Opacidade da janela</label>
+          <div class="slider-row">
+            <div class="row-header">
+              <span>Transparência</span>
+              <span id="label-opacity">100%</span>
+            </div>
+            <input
+              type="range"
+              id="slider-opacity"
+              min="0.4"
+              max="1.0"
+              step="0.05"
+              value="1.0"
+            />
+          </div>
+        </div>
+
+        <!-- Shortcuts reference -->
+        <div class="settings-group">
+          <label>Atalhos de teclado</label>
+          <div class="settings-row">
+            <span>Abrir/ocultar janela</span>
+            <span style="color: var(--text-secondary); font-size: 12px;">⌘⇧G</span>
+          </div>
+          <div class="settings-row">
+            <span>Configurações</span>
+            <span style="color: var(--text-secondary); font-size: 12px;">⌘,</span>
+          </div>
+          <div class="settings-row">
+            <span>Nova conversa</span>
+            <span style="color: var(--text-secondary); font-size: 12px;">⌘N</span>
+          </div>
+          <div class="settings-row">
+            <span>Recarregar</span>
+            <span style="color: var(--text-secondary); font-size: 12px;">⌘R</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts (loaded after DOM) -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/shortcuts.js"></script>
+  </body>
+</html>

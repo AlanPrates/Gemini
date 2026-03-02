@@ -1,0 +1,368 @@
+/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  /* Spacing */
+  --radius: 10px;
+  --radius-sm: 6px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration: 240ms;
+  --transition: all var(--duration) var(--ease);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.18);
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI',
+    system-ui, sans-serif;
+  --font-size: 15px;
+
+  /* Light theme colours */
+  --bg: rgba(242, 242, 247, 0.92);
+  --surface: rgba(255, 255, 255, 0.75);
+  --border: rgba(0, 0, 0, 0.08);
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --accent: #0071e3;
+
+  /* Title bar */
+  --titlebar-height: 52px;
+  --titlebar-bg: rgba(255, 255, 255, 0.6);
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: rgba(28, 28, 30, 0.92);
+    --surface: rgba(40, 40, 42, 0.75);
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #f5f5f7;
+    --text-secondary: #86868b;
+    --accent: #2997ff;
+    --titlebar-bg: rgba(28, 28, 30, 0.6);
+  }
+}
+
+body.dark {
+  --bg: rgba(28, 28, 30, 0.92);
+  --surface: rgba(40, 40, 42, 0.75);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f5f5f7;
+  --text-secondary: #86868b;
+  --accent: #2997ff;
+  --titlebar-bg: rgba(28, 28, 30, 0.6);
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  font-size: var(--font-size);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+/* ─── Title Bar ──────────────────────────────────────────────────────────────── */
+#title-bar {
+  flex-shrink: 0;
+  height: var(--titlebar-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--titlebar-bg);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  -webkit-app-region: drag;
+  position: relative;
+  transition: background var(--duration) var(--ease);
+}
+
+#title-bar .title-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  -webkit-app-region: no-drag;
+  pointer-events: none;
+}
+
+/* Settings button in title bar */
+#btn-settings {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+#btn-settings:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+#btn-settings svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─── Webview Container ──────────────────────────────────────────────────────── */
+#webview-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+webview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: flex !important;
+}
+
+/* ─── Settings Panel ─────────────────────────────────────────────────────────── */
+#settings-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+#settings-panel.open {
+  display: flex;
+}
+
+#settings-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn var(--duration) var(--ease);
+}
+
+#settings-card {
+  position: relative;
+  z-index: 1;
+  width: 320px;
+  height: 100%;
+  background: var(--surface);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-left: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  padding: 24px 20px;
+  overflow-y: auto;
+  animation: slideIn var(--duration) var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+#settings-card h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.settings-row span {
+  color: var(--text);
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  -webkit-app-region: no-drag;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 13px;
+  background: var(--border);
+  cursor: pointer;
+  transition: background var(--duration) var(--ease);
+}
+
+.toggle input:checked + .toggle-track {
+  background: var(--accent);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration) var(--ease);
+  pointer-events: none;
+}
+
+.toggle input:checked ~ .toggle-thumb {
+  transform: translateX(18px);
+}
+
+/* Slider */
+.slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.slider-row .row-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  -webkit-app-region: no-drag;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 120ms var(--ease);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Theme selector */
+.theme-selector {
+  display: flex;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+}
+
+.theme-btn {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.theme-btn.active,
+.theme-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0, 113, 227, 0.08);
+}
+
+/* Close settings button */
+#btn-close-settings {
+  -webkit-app-region: no-drag;
+  align-self: flex-end;
+  margin-bottom: -8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+#btn-close-settings:hover {
+  background: var(--surface);
+  color: var(--text);
+}

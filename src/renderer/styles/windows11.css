@@ -1,0 +1,66 @@
+/* ─── Windows 11 / Fluent Design overrides ───────────────────────────────────
+   Applied when <body class="windows"> is set by app.js
+   ─────────────────────────────────────────────────────────────────────────── */
+
+body.windows #title-bar {
+    --titlebar-height: 32px;
+    justify-content: flex-start;
+    padding-left: 12px;
+}
+
+body.windows #title-bar .title-text {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Segoe UI Variable', 'Segoe UI', sans-serif;
+}
+
+/* Fluent-style caption buttons (close / min / max) */
+body.windows #win-controls {
+    display: flex;
+    -webkit-app-region: no-drag;
+    margin-left: auto;
+    height: 100%;
+}
+
+body.windows .win-ctrl-btn {
+    width: 46px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 120ms ease;
+}
+
+body.windows .win-ctrl-btn:hover {
+    background: var(--border);
+}
+
+body.windows .win-ctrl-btn.close:hover {
+    background: #c42b1c;
+    color: white;
+}
+
+/* Acrylic-style backdrop on windows containers */
+body.windows #settings-card {
+    border-radius: var(--radius) 0 0 var(--radius);
+    backdrop-filter: blur(30px) saturate(125%);
+    -webkit-backdrop-filter: blur(30px) saturate(125%);
+}
+
+/* Win11 rounded corners on webview wrapper */
+body.windows #app {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--border), var(--shadow-lg);
+}
+
+body.windows #webview-container {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    overflow: hidden;
+}

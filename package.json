@@ -1,20 +1,28 @@
 {
   "name": "Gemini",
   "productName": "Gemini",
-  "version": "0.0.1",
-  "description": "Gemini",
-  "main": "index.js",
+  "version": "1.1.0",
+  "description": "Cliente desktop nativo para o Google Gemini — macOS & Windows 11",
+  "main": "src/main/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-builder --linux --win --mac",
     "make": "electron-forge make",
+    "build": "electron-builder --mac --win",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder --mac --win --linux",
     "publish": "electron-forge publish --arch arm64,x64",
-    "postpackage": "electron-forge remove-package-artifacts",
     "lint": "echo \"Nenhuma configuração de linting\"",
-    "package-linux": "electron-builder --linux",
     "postinstall": "electron-builder install-app-deps"
   },
-  "keywords": ["gemini", "IA", "Google", "MacOS"],
+  "keywords": [
+    "gemini",
+    "IA",
+    "Google",
+    "MacOS",
+    "Windows"
+  ],
   "author": {
     "name": "Alan Prates",
     "email": "alan_invasion@hotmail.com"
@@ -22,10 +30,9 @@
   "license": "MIT",
   "dependencies": {
     "electron-context-menu": "^3.6.0",
-    "menubar": "^9.2.3",
-    "nucleus-analytics": "^4.0.3",
-    "update-electron-app": "^2.0.1",
-    "electron-winstaller": "^4.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.2.0",
+    "update-electron-app": "^2.0.1"
   },
   "repository": {
     "type": "git",
@@ -40,21 +47,79 @@
     "@electron-forge/publisher-github": "^6.0.4",
     "dotenv": "^16.0.3",
     "electron": "^21.4.4",
-    "electron-builder": "^24.6.4",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-builder": "^24.6.4"
   },
   "build": {
     "appId": "com.alanprates.gemini",
-    "win": {
-      "icon": "images/icon.png"
+    "productName": "Gemini",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
     },
-    "linux": {
-      "icon": "images/icon.png",
-      "target": ["deb", "rpm"]
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icons/icon.ico",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
     },
     "mac": {
-      "icon": "images/icon.png",
-      "target": ["dmg"]
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "assets/icons/icon.icns",
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": null,
+      "entitlementsInherit": null
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ],
+      "icon": "assets/icons/icon.png",
+      "category": "Network",
+      "maintainer": "Alan Prates <alan_invasion@hotmail.com>",
+      "vendor": "Alan Prates",
+      "synopsis": "Cliente desktop nativo para o Google Gemini",
+      "description": "Cliente desktop nativo para o Google Gemini — macOS & Windows 11"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "deleteAppDataOnUninstall": false
     }
   }
 }

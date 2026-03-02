@@ -1,0 +1,34 @@
+/* ─── macOS-specific overrides ───────────────────────────────────────────────
+   Applied when <body class="macos"> is set by app.js
+   ─────────────────────────────────────────────────────────────────────────── */
+
+body.macos #title-bar {
+    /* hiddenInset gives us space on the left for traffic lights.
+     We need at least 74px so the title text doesn't overlap them. */
+    --titlebar-height: 52px;
+    padding-left: 80px;
+    /* clear traffic lights */
+}
+
+body.macos #title-bar .title-text {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* The webview container underneath a transparent / vibrancy title bar */
+body.macos #webview-container {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+}
+
+body.macos #settings-card {
+    /* Slightly narrower panel on macOS to match HIG spacing */
+    width: 300px;
+    border-radius: 0;
+}
+
+/* Subtle inset shadow on macOS windows */
+body.macos #app {
+    box-shadow: inset 0 0 0 1px var(--border);
+}
