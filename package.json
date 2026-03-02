@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron-forge start",
     "make": "electron-forge make",
-    "build": "electron-builder --mac --win",
+    "build": "electron-builder --mac --win --linux",
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
@@ -70,7 +70,7 @@
           ]
         }
       ],
-      "icon": "assets/icons/icon.ico",
+      "icon": "assets/icons/icon.png",
       "artifactName": "${productName}-Setup-${version}.${ext}"
     },
     "mac": {
@@ -83,7 +83,7 @@
           ]
         }
       ],
-      "icon": "assets/icons/icon.icns",
+      "icon": "assets/icons/icon.png",
       "category": "public.app-category.utilities",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
