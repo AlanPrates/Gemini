@@ -1,6 +1,9 @@
 # 💎 Gemini Desktop
 
+
 Esse projeto é um aplicativo desktop que eu fiz usando **Electron** pra rodar o [Google Gemini](https://gemini.google.com) como se fosse um app nativo no computador, sem precisar abrir o navegador toda hora.
+
+![Captura do App](images/Captura.png)
 
 > Funciona no **macOS** e no **Windows 11**! No macOS fica com aquele efeito de vidro (vibrancy) e no Windows 11 fica com o estilo Fluent Design do Windows.
 
@@ -78,7 +81,7 @@ npm run build
 # Ou só pra uma plataforma específica:
 npm run build:mac      # macOS → gera .dmg
 npm run build:win      # Windows → gera .exe
-npm run build:linux    # Linux → gera .deb e .rpm
+npm run build:linux    # Linux → gera .deb
 ```
 
 > ⚠️ **Observação importante:** Pra gerar o instalador do Windows em um Mac, precisa ter o **Wine** instalado. Eu aprendi isso na marra. Instala com `brew install --cask wine-stable` se precisar.
